@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let flag = {
+            width: null,
+            height: null
+        };
+        let block = {
+            width: 20,
+            height: 20
+        }
+        window.onload = () => {
+            const circleElement = document.querySelector('.circle');
+            const flagElement = document.querySelector('.flag');
+            if (window.innerWidth > 768) {
+                flag.width = 600;
+                flag.height = 300;
+            } else {
+                flag.width = 300;
+                flag.height = 150;
+                block.width = 10;
+                block.height = 10;
+            }
+
+            flagElement.style.width = flag.width + 'px';
+            flagElement.style.height = flag.height + 'px';
+
+            let flagRowHeight = flag.height / 3;
+
+            circleElement.style.width = (flagRowHeight-20)+'px';
+            circleElement.style.height = (flagRowHeight-20)+'px';
+
+            let rowElement = Array.from(document.querySelectorAll('.flag-row'));
+            rowElement.map((row) => {
+                row.style.height = flagRowHeight + 'px';
+            });
+            const rowArea = flag.width * flagRowHeight;
+            const blockArea = block.width*block.height;
+            const numberOfBlock = rowArea / blockArea;
+            let blockCount = 0;
+            let span = '<span class="block" style="width:'+block.width+'px; height:'+block.height+'px"></span>';
+            document.querySelector('.heading').classList.add('show');
+            const interval = setInterval(() => {
+                if (blockCount == numberOfBlock) {
+                    circleElement.classList.add('show');
+                    
+                    addLineInCircle(circleElement);
+                    clearInterval(interval);
+                } else {
+
+                    rowElement[0].innerHTML += span;
+                    rowElement[1].innerHTML += span;
+                    rowElement[2].innerHTML += span;
+                    blockCount++;
+                }
+            }, 15);
+        }
+
+        function addLineInCircle(circleElement) {
+            const style = "height:1px;width:"+circleElement.style.width;
+            let rotateDeg = 90;
+            let lineCount = 0;
+            const lineInterval = setInterval(()=>{
+                if (lineCount == 12 ) {
+                    clearInterval(lineInterval);
+                    
+                } else {
+                    let lineStyle = style+'; transform: translate(-50%,-50%) rotate('+rotateDeg+'deg)';
+                    circleElement.innerHTML += "<span class='line' style='"+lineStyle+"'></span>";
+                    rotateDeg -=15;
+                    lineCount++;
+                }
+            },50)
+        }
+
+    </script>
+    <style>
+        body {
+            /* background-color: #CCC; */
+            background-image: url('cloud.gif');
+            background-size: cover;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+
+        .flag-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* border: 1px solid; */
+        }
+
+        .red {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .white {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .green {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .block {
+            /* width: 10px;
+            height: 10px; */
+            /* margin: 1px; */
+        }
+
+        .red .block {
+            background-color: #e1360b;
+        }
+
+        .white .block {
+            background-color: #FFFFFF;
+        }
+
+        .green .block {
+            background-color: #226554;
+        }
+        .circle {
+            border: 3px solid #5650ad;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            border-radius: 100%;
+            opacity: 0;
+        }
+        .circle.show {
+            opacity:100%;
+            /* transition:opacity 2s */
+        }
+        .circle .line{
+            background-color: #5650ad;
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .heading {
+            
+            text-transform: uppercase;
+            opacity: 0;
+        }
+        .heading.show {
+            opacity:100%;
+            transition:opacity 5s
+        }
+        .main-head {
+            font-size: 30px;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            color: #282642;
+        }
+        .sub-head {
+            font-size: 35px;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+        }
+        .sub-head .red-text {color: #e1360b;}
+        .sub-head .white-text {color: #FFFFFF;}
+        .sub-head .green-text {color: #226554;}
+        .footer {
+            position: absolute;
+            bottom: 7px;
+            text-align: center;
+            width: 94%;
+            font-size: 12px;
+            color: #9c9c9c;
+        }
+        @media screen and (max-width: 768px) {
+            body {
+                background-size: 320% !important;
+            }
+            .main-head  {
+                font-size: 20px;
+            }
+            .sub-head {
+                font-size: 28px ;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flag-content">
+       
+        <div class="flag">
+            
+            <div class="flag-row red"></div>
+            <div class="flag-row white"></div>
+            <div class="flag-row green"></div>
+            <div class="circle"></div>
+            <div class="heading">
+                <div class="main-head">Proud To Be An Indian</div>
+                <div class="sub-head">
+                    <span class="red-text">Happy</span> 
+                    <span class="white-text">INDEPENDENCE </span>
+                    <span class="green-text">DAY</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        &copy; powered by Binssoft
+    </div>
+</body>
+
+</html>
